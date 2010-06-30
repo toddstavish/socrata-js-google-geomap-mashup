@@ -1,0 +1,45 @@
+<html> 
+<head> 
+<script type='text/javascript' src='http://www.google.com/jsapi'></script> 
+<script type="text/javascript">  
+google.load('visualization', '1', {'packages': ['geomap']});
+google.setOnLoadCallback(function() {
+
+  // To see the data that this visualization uses, browse to
+  // http://spreadsheets.google.com/ccc?key=pCQbetd-CptGXxxQIG7VFIQ  
+  var query = new google.visualization.Query(
+      'http://www.socrata.com/api/views/sr7j-3diq/rows.gvds');
+
+  // Send the query with a callback function.
+  query.send(handleQueryResponse);
+});
+
+function handleQueryResponse(response) {
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+  var data = response.getDataTable();
+  var options = {};
+  options['dataMode'] = 'regions';
+  options['region'] = 'US';
+  var container = document.getElementById('map');
+  var mymap = new google.visualization.GeoMap(container);
+
+  google.visualization.events.addListener(mymap, 'regionClick',function(e) { 
+    var rowindex = data.getFilteredRows([{column: 0, value: e['region']}]); 
+    var count = data.getValue(rowindex[0],1); 
+    location.href = "http://www.stavi.sh/demos/socrata/clickableGeomap/"+ e['region'] + ".htm" 
+  }); 
+
+  mymap.draw(data, options);              
+
+};  
+</script>  
+</head> 
+ 
+<body> 
+<div id="map"></div> 
+</div> 
+</body> 
+</html>

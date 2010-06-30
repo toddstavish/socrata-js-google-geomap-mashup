@@ -1,0 +1,3 @@
+Google Geomap visualization getting data from Socrata API with javascript code providing click-through functionality. Click on a state and it will dynamically generate a URL for that state.
+http://www.stavi.sh/demos/socrata/clickableGeomap/geomap.html
+Any questions email me please: toddstavish@gmail.com
